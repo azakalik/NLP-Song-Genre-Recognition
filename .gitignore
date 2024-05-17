@@ -163,3 +163,5 @@ cython_debug/
 original_csv/
 
 .idea/
+
+outputs/
