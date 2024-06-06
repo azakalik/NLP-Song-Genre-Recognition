@@ -1,8 +1,8 @@
 import csv
-from . import tokenize_and_format
+from tokenize_and_format import tokenize_and_format
 
 
-def find_n_most_used_words(n, input_csv_file, min_word_len: int) -> dict[str, int]:
+def find_n_most_used_words(n, input_csv_file, min_word_len: int or None) -> dict[str, int]:
     bag_of_words = {}
     with open(input_csv_file, mode='r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
