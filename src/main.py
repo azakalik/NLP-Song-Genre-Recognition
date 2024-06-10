@@ -5,8 +5,8 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 import nltk
 from sklearn.metrics import confusion_matrix
-from src.lyrics_dataset import LyricsDataset
-from src.utils.lstm_functions import format_training_data, plot_accuracies, plot_confusion_matrices, collate_fn
+from lyrics_dataset import LyricsDataset
+from utils.lstm_functions import format_training_data, plot_accuracies, plot_confusion_matrices, collate_fn
 from lstm import LSTM
 
 nltk.download('punkt')
@@ -16,7 +16,7 @@ nltk.download('stopwords')
 def main():
     frequency_threshold = 5000
 
-    corpus = pd.read_csv('../csv/train_reduced.csv').dropna()
+    corpus = pd.read_csv('./csv/train_reduced.csv').dropna()
     train_data = format_training_data(corpus)
 
     # Use GPU if available
@@ -30,6 +30,7 @@ def main():
     songs_per_genre = 1890
 
     for lyrics_type in lyrics_types:
+        print('----------', lyrics_type, '----------')
         lyrics = list(train_data.groupby(['Genre']).head(songs_per_genre).reset_index()[lyrics_type])
         genres = list(train_data.groupby(['Genre']).head(songs_per_genre).reset_index()['Genre'])
 

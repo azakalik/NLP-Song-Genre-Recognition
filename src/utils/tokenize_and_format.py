@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import nltk
 import re
 from typing import List
