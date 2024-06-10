@@ -9,12 +9,10 @@ from tokenize_and_format import tokenize_and_format
 from find_n_most_used_words import find_n_most_used_words
 from sklearn.linear_model import LinearRegression
 
+most_used_words = find_n_most_used_words(100, '../csv/train_reduced.csv', 3)
 
-most_used_words = find_n_most_used_words(100, '/Users/motegui/Documents/GitHub/NLP-Song-Genre-Recognition/csv/train_reduced.csv', 3)
-#print(most_used_words)
-# Cargar los datos
-train = pd.read_csv('/Users/motegui/Documents/GitHub/NLP-Song-Genre-Recognition/csv/train_reduced.csv')
-test = pd.read_csv('/Users/motegui/Documents/GitHub/NLP-Song-Genre-Recognition/csv/test.csv')
+train = pd.read_csv('../csv/train_reduced.csv')
+test = pd.read_csv('../csv/test.csv')
 
 # Vectorizar los textos utilizando solo las palabras más usadas
 vectorizer = TfidfVectorizer(vocabulary=most_used_words.keys(), stop_words='english')
@@ -24,11 +22,9 @@ X = vectorizer.fit_transform(train['Lyrics'])
 # Convertir la matriz TF-IDF a un DataFrame de pandas
 tfidf_df = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
 
-# Mostrar algunos valores de TF-IDF
 print("Valores de TF-IDF:")
 print(tfidf_df.head())
 
-#Convertir las etiquetas de destino en valores numéricos
 label_encoder = LabelEncoder()
 y_train_encoded = label_encoder.fit_transform(train['Genre'])
 
@@ -43,7 +39,7 @@ model.fit(X_train, y_train)
 train_score = model.score(X_train, y_train)
 test_score = model.score(X_test, y_test)
 
-#R2 indica qué tan bien los datos se ajustan al modelo de regresión.
+# R2 indica qué tan bien los datos se ajustan al modelo de regresión.
 y_train_pred = model.predict(X_train)
 train_r2 = r2_score(y_train, y_train_pred)
 
@@ -61,5 +57,5 @@ plt.ylabel('Predicciones')
 plt.legend()
 plt.show()
 
-#esto se encarga de entrenar un modelo de regresion lineal y evaluar su rendimienrto de prediccion  de generos musicales
-#a partir de las letras de las canciones representadas como vectores TF-IDF
+# esto se encarga de entrenar un modelo de regresion lineal y evaluar su rendimienrto de prediccion  de generos musicales
+# a partir de las letras de las canciones representadas como vectores TF-IDF
